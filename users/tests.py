@@ -5,6 +5,7 @@ from django.contrib.auth import get_user
 
 # Create your tests here.
 
+
 class RegistrationTestCases(TestCase):
     
     def test_user_is_created(self):
@@ -77,6 +78,7 @@ class RegistrationTestCases(TestCase):
         self.assertFormError(response, 'form', 'username', 'A user with that username already exists.')
 
 
+class LoginTestCases(TestCase):
     def test_successfull_login(self):
         db_user = User.objects.create(username = 'AkobirDev', first_name = 'Akobir')
         db_user.set_password('somepass')
@@ -122,3 +124,22 @@ class RegistrationTestCases(TestCase):
         user = get_user(self.client)
         self.assertFalse(user.is_authenticated)
 
+
+class ProfileTestCases(TestCase):
+    def test_login_required(self):
+        response = self.client.get(reverse('users:profile'))
+        self.assertEqual(response.url, reverse('users:login'))
+
+    def test_profile_details(self):
+        user = User.objects.create(username='AkobirDev', first_name='Akobir', last_name='Tursunov', email='akobir@mail.com')
+        user.set_password('somepass')
+        user.save()
+
+        self.client.login(username='AkobirDev', password='somepass')
+        
+        response = self.client.get(reverse('users:profile'))
+
+        self.assertContains(response, user.username)
+        self.assertContains(response, user.first_name)
+        self.assertContains(response, user.last_name)
+        self.assertContains(response, user.email)

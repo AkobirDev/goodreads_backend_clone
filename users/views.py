@@ -39,13 +39,12 @@ class LoginView(View):
             login(request, user)
         else:
             return render(request, 'users/login.html', {'login_form': login_form})
-        return redirect('landing_page')
+        return redirect('users:profile')
 
 
 class ProfileView(View):
-    pass
-#     def get(self, request):
-#         if not request.user.is_authenticated:
-#             return redirect('users:login')
-#         context = {'user': request.user}
-#         return render(request, 'users/profile.html', context)
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return redirect('users:login')
+        context = {'user': request.user}
+        return render(request, 'users/profile.html', context)
