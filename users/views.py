@@ -1,7 +1,8 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.views import View
 from users.forms import UserCreateForm
 
@@ -37,9 +38,17 @@ class LoginView(View):
         if login_form.is_valid():
             user = login_form.get_user()
             login(request, user)
+            messages.success(request, 'You have successfully logged in.')
         else:
             return render(request, 'users/login.html', {'login_form': login_form})
-        return redirect('users:profile')
+        return redirect('books:list')
+
+
+class LogOutView(View):
+    def get(self, request):
+        logout(request)
+        messages.info(request, 'You have successfully logged out!')
+        return redirect('landing_page')
 
 
 class ProfileView(View):
