@@ -12,7 +12,7 @@
         {% for book in books %}
         <li><a href="{% url 'books:detail' book.id %}">{{book.title}}</li><br><br>
         {% empty %}
-        <h5>No books...</h5>
+        <h5>No Books Found...</h5>
         {% endfor %}
     </ul>
 </body>
