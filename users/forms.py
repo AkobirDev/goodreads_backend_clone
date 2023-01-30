@@ -1,9 +1,9 @@
 from django import forms
-from django.contrib.auth.models import User
+from users.models import CustomUser
 
 class UserCreateForm(forms.ModelForm):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ('username', 'first_name', 'last_name', 'email', 'password')
     # username = forms.CharField(max_length=200)
     # first_name = forms.CharField(max_length=200)
@@ -20,5 +20,5 @@ class UserCreateForm(forms.ModelForm):
 
 class ProfileEditForm(forms.ModelForm):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ('username', 'first_name', 'last_name', 'email')

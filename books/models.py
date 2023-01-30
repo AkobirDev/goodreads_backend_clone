@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from users.models import CustomUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 
@@ -37,7 +37,7 @@ class BookReview(models.Model):
     stars = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
 
     def __str__(self):
