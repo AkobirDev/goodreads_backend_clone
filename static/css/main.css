@@ -4,3 +4,103 @@
     border-radius: 50%;
     object-fit: cover;
   }
+
+/* .book-pic{
+  width: 200px;
+  height: 400px;
+  border-radius: 3px;
+} */
+
+
+.book_info a {
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: rgb(36, 35, 35);
+    text-decoration: none;
+}
+
+* {
+  margin: 0;
+  padding: 0
+}
+
+
+.card {
+  width: 350px;
+  background-color: #efefef;
+  border: none;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.image img {
+  transition: all 0.5s
+}
+
+.card:hover .image img {
+  transform: scale(1.5)
+}
+
+.btnn {
+  height: 140px;
+  width: 140px;
+  border-radius: 50%
+}
+
+.name {
+  font-size: 26px;
+  font-weight: bold
+}
+
+.idd {
+  font-size: 18px;
+  font-weight: 600
+}
+
+.idd1 {
+  font-size: 16px
+}
+
+.number {
+  font-size: 22px;
+  font-weight: bold
+}
+
+
+.btn1 {
+  height: 40px;
+  width: 150px;
+  border: none;
+  background-color: #000;
+  color: #aeaeae;
+  font-size: 15px
+}
+.btn1 a{
+  text-decoration: none;
+  color: #fff;
+}
+
+.text span {
+  font-size: 13px;
+  color: #545454;
+  font-weight: 500
+}
+
+.icons i {
+  font-size: 19px
+}
+
+hr .new1 {
+  border: 1px solid
+}
+
+.join {
+  font-size: 14px;
+  color: #a0a0a0;
+  font-weight: bold
+}
+
+.date {
+  background-color: #ccc
+}

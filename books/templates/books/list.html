@@ -1,16 +1,22 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} All Books {% endblock title %}
 {% block content %}
     <h1>Book List</h1>
-    <ul>
         {% for book in books %}
-        <li><a href="{% url 'books:detail' book.id %}">{{book.title}}</li><br><br>
+            <div class="row mb-5">
+                <div class="col-2">
+                    <img class="book-pic" src="{{book.cover_img.url}}" alt="Book cover image" width="250" height="250">
+                </div>
+                <div class="col-4 ms-5 book_info" >
+                    <a class=" mb-4 text-bold" href="{% url 'books:detail' book.id %}">{{book.title}}</a>
+                    <p>{{book.description | slice:"170"}}.....</p>
+                </div>
+            </div>
         {% empty %}
         <h5>No Books Found...</h5>
         {% endfor %}
-    </ul>
-
 {% endblock content %}
 
 
