@@ -9,7 +9,7 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     isbn = models.CharField(max_length=17)
-
+    cover_img = models.ImageField(default='cover.png')
     def __str__(self):
         return self.title
 
