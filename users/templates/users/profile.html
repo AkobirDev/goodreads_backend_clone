@@ -3,6 +3,7 @@
 {% block title %} My Profile {% endblock title %}
 {% block content %}
     <h1>Profile Page</h1>
+    <a href='{% url 'users:profile_edit' %}'>Edit Profile</a>
     <p>Username: {{user.username}}</p> 
     <p>First Name: {{user.first_name}}</p> 
     <p>Last Name: {{user.last_name}}</p> 

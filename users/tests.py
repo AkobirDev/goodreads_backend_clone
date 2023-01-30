@@ -153,3 +153,25 @@ class ProfileTestCases(TestCase):
         self.assertContains(response, user.first_name)
         self.assertContains(response, user.last_name)
         self.assertContains(response, user.email)
+
+    def test_change_profile(self):
+        user = User.objects.create(username='AkobirDev', first_name='Akobir', last_name='Tursunov', email='akobir@mail.com')
+        user.set_password('somepass')
+        user.save()
+
+        self.client.login(username='AkobirDev', password='somepass')
+
+        response = self.client.post(
+            reverse('users:profile_edit'),
+            data = {
+                'username': 'AkobirDev',
+                'first_name': 'Akobir3',
+                'last_name': 'Tursunov',
+                'email': 'akobir@mail.commmm',
+                
+            }
+        )
+        user = User.objects.get(pk = user.pk)
+        self.assertEqual(user.first_name, 'Akobir3')
+        self.assertEqual(user.email, 'akobir@mail.commmm')
+        self.assertEqual(response.url, reverse('users:profile'))

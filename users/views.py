@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
-from users.forms import UserCreateForm
+from users.forms import UserCreateForm, ProfileEditForm
 
 # Create your views here.
 
@@ -57,3 +57,19 @@ class ProfileView(View):
             return redirect('users:login')
         context = {'user': request.user}
         return render(request, 'users/profile.html', context)
+
+
+class ProfileEditView(View):
+    def get(self, request):
+        profile_edit_form = ProfileEditForm(instance=request.user)
+        context = {'profile_edit_form': profile_edit_form}
+        return render(request, 'users/profile_edit.html', context)
+
+    def post(self, request):
+        profile_edit_form = ProfileEditForm(instance=request.user, data=request.POST)
+        if profile_edit_form.is_valid:
+            profile_edit_form.save()
+            messages.success(request, 'Changes are successfully changed.')
+        else:
+            return render(request, 'users/profile_edit.html', {'profile_edit_form': profile_edit_form})
+        return redirect('users:profile')
