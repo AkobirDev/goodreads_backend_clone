@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %} Login Page {% endblock title %}
 {% block content %}
     <h1>Login Page</h1>
-    <form method="POST" action="{% url 'users:login' %}">
-        {% csrf_token %}
-        {{login_form.as_p}}
-        <button type="submit">Submit</button>
-        <a href='{% url 'users:register' %}'>haven't account?</a>
-    </form>
+    <div class="row">
+        <div class="col-4">
+            <form method="POST" action="{% url 'users:login' %}">
+                {% csrf_token %}
+                {{login_form | crispy}}
+                <button class='btn btn-primary' type="submit">Submit</button>
+                <a class='ms-4' href='{% url 'users:register' %}'>haven't account?</a>
+            </form>
+        </div>
+    </div>
 {% endblock content %}
