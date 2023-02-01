@@ -35,9 +35,11 @@
             </li>
             <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
             {% endif %}
+            {% if page_obj %}
             <li class="page-item active" aria-current="page">
               <span class="page-link">{{ page_obj.number }}</span>
             </li>
+            {% endif %}
             {% if page_obj.has_next %}
             <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
             <li class="page-item">
@@ -51,10 +53,12 @@
                     <a href="?page=1">&laquo; first</a>
                     <a href="?page={{ page_obj.previous_page_number }}">previous</a>
                 {% endif %}
-        
+                
+                {% if page_obj %}
                 <span class="current">
                     Page {{ page_obj.number }}
                 </span>
+                {% endif %}
         
                 {% if page_obj.has_next %}
                     <a href="?page={{ page_obj.next_page_number }}">next</a>
