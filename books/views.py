@@ -15,13 +15,16 @@ from .models import Book
 class BookListView(View):
     def get(self, request):
         books = Book.objects.all().order_by('id')
+        search_query = request.GET.get('q', '')
+        if search_query:
+            books = books.filter(title__icontains = search_query)
         page_size = request.GET.get('page_size', 2)
         pagination = Paginator(books, page_size)
 
         page_num = request.GET.get('page', 1)
         page_obj = pagination.get_page(page_num)
 
-        context = {'page_obj': page_obj}
+        context = {'page_obj': page_obj, 'search_query': search_query}
         return render(request, 'books/list.html', context)
 
 
