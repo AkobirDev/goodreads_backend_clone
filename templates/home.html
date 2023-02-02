@@ -11,15 +11,16 @@
             <div class="card post_card mb-4">
               <div class="card-body">
                 <div class="media mb-3">
-                  <img class="user-pic" src="{{review.user.image.url}}" alt="">
-                  <div class="media-body ml-3">
-                    {% if review.user.first_name and review.user.last_name %}
-                    <b>{{review.user.first_name}} {{review.user.last_name}}</b>
-                    {% else %}
-                    <b>{{review.user.username}}</b>
-                    {% endif %}
-                    <span> rated this book <b>{{review.stars}} stars</b> </span>
-                    <div class="text-muted small">{{review.created_at | date:"D M, Y"}}</div>
+                  <div class='d-flex align-items-center'>
+                    <img class="user-pic me-3" src="{{review.user.image.url}}" alt="">
+                    <div class="media-body ml-3">
+                      <p>
+                        <b>{{review.user.username}}</b>
+                        <span> rated this book <b>{{review.stars}} stars</b> </span>
+                        <p class="text-muted small">{{review.created_at | date:"D M, Y"}}</p>
+                      </p>
+                  </div>
+                 
                   </div>
                 </div>
             

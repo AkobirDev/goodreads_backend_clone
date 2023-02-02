@@ -21,14 +21,16 @@
 }
 
 .card {
-  width: 350px;
   background-color: #efefef;
   border: none;
   cursor: pointer;
   transition: all 0.5s;
 }
+.profile_card{
+  width: 350px;
+}
 
-.image img {
+.image0 img {
   transition: all 0.5s
 }
 
@@ -112,10 +114,7 @@ hr .new1 {
   object-fit: cover;
 }
 
-.post_card{
-  border: 2px #000 solid;
-  padding: 10px 15px;
-}
+
 
 .posts-content{
   margin-top:20px;    
@@ -168,4 +167,11 @@ hr .new1 {
 }
 .nav-item:hover .nav-link{
   color: rgb(13, 93, 198);
+}
+
+.post_card{
+  width: 500px !important;
+  margin-right: 50px;
+  border: 2px #000 solid;
+  padding: 10px 15px;
 }

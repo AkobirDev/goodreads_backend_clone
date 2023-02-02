@@ -41,7 +41,13 @@
             <img class="user-pic" src="{{review.user.image.url}}" alt="User image">
         </div>
         <div class="col-8">
-            <p class="fs-4"><b class="fs-3">{{review.user.username}}</b> rated it <b class="fs-3">{{review.stars}} stars</b> <span class="ms-3 fw-lighter fs-5">{{review.created_at}}</span></p>
+            <p class="fs-4">
+                <b class="fs-3">{{review.user.username}}</b> rated it <b class="fs-3">{{review.stars}} stars</b> <span class="ms-3 fw-lighter fs-5">{{review.created_at}}</span>
+                {% if review.user == request.user %}
+                <a href="{% url 'books:review_edit' book.id review.id %}"><i class="bi bi-pen"></i></a>
+                <a href="{% url 'books:review_delete_confirm' book.id review.id %}"><i class="bi bi-trash"></i></a>
+                {% endif %}
+            </p>
             <p class="font-monospace mt-3">{{review.review_text}}</p>
         </div>
         {% endfor %}
