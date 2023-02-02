@@ -64,6 +64,16 @@ class BookReviewTestCases(TestCase):
         response = self.client.post(
             reverse('books:reviews', kwargs={'id':book.id} ),
             data={
+                'stars': 6,
+                'review_text': 'Nice book'
+            }
+        )
+
+
+
+        response = self.client.post(
+            reverse('books:reviews', kwargs={'id':book.id} ),
+            data={
                 'stars': 3,
                 'review_text': 'Nice book'
             }

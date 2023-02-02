@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<h2>Home Page</h2>
+<div class="container posts-content">
+    <div class="row">
+    {% for review in page_obj %}
+        <div class="col-lg-6 mb-3">
+            <div class="card post_card mb-4">
+              <div class="card-body">
+                <div class="media mb-3">
+                  <img class="user-pic" src="{{review.user.image.url}}" alt="">
+                  <div class="media-body ml-3">
+                    {% if review.user.first_name and review.user.last_name %}
+                    <b>{{review.user.first_name}} {{review.user.last_name}}</b>
+                    {% else %}
+                    <b>{{review.user.username}}</b>
+                    {% endif %}
+                    <span> rated this book <b>{{review.stars}} stars</b> </span>
+                    <div class="text-muted small">{{review.created_at | date:"D M, Y"}}</div>
+                  </div>
+                </div>
+            
+                <p>
+                 {{review.review_text}}
+                </p>
+                <img src="{{review.book.cover_img.url}}" style="margin: 0 auto; display:block" width="200" height="250"/>
+              </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <ul class="pagination">
+      {% if page_obj.has_previous %}
+      {% comment %} <a href="?page=1">&laquo; first</a>
+      <a href="?page={{ page_obj.previous_page_number }}">previous</a> {% endcomment %}
+      
+      <li class="page-item ">
+          <a href="?page=1" class="page-link">&laquo; First</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+      {% endif %}
+      {% if page_obj %}
+      <li class="page-item active" aria-current="page">
+        <span class="page-link">{{ page_obj.number }}</span>
+      </li>
+      {% endif %}
+      {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+      </li>
+      {% endif %}
+    </ul>
+  
+
+</div>
+
+{% endblock content %}
