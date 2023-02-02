@@ -8,8 +8,16 @@
         <div class="col-2">
             <img src='{{book.cover_img.url}}' width="250" height="400">
         </div>
-        <div class="col-8 ms-5">
+        <div class="col-7 ms-5">
             <h3>{{book.title}}</h3>
+            <p>Authored by 
+                {% for book_author in book.bookauthor_set.all %}
+                {% if forloop.last %}
+                    <span class='fst-italic fs-5'>{{book_author.author.fullName}}</span>
+                {% else %}
+                <span class='fst-italic fs-5'>{{book_author.author.fullName}}, </span>
+                {% endif %}
+                {% endfor %}
             <p>{{book.description}}</p>
         </div>
     </div>

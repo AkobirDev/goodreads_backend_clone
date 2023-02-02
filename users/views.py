@@ -24,7 +24,7 @@ class RegisterView(View):
             return render(request, 'users/register.html', context=context)
 
         return redirect('users:login')
-
+    
 
 class LoginView(View):
     def get(self, request):
