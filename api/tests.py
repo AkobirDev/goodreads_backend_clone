@@ -12,11 +12,30 @@ class BookReviewApiTestCases(APITestCase):
         self.user.save()
         self.client.login(username='AkobirDev', password='somepass')
 
+    def test_book_reviews(self):
+        user_two = CustomUser.objects.create(username='AkobirDev2', first_name='Akobir2')
+        
+        book = Book.objects.create(title='book1', description='lorem1', isbn='111')
+        # book_two = Book.objects.create(title='book2', description='lorem2', isbn='222')
+        br_two = BookReview.objects.create(book=book, review_text='some text2', user=user_two, stars=3)
+        br = BookReview.objects.create(book=book, review_text='some text1', user=self.user, stars=5)
+
+        response = self.client.get(reverse('api:review-list'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data['results']), 2)
+        self.assertEqual(response.data['results'][0]['stars'], br_two.stars)
+        self.assertEqual(response.data['results'][0]['review_text'], br_two.review_text)
+        self.assertEqual(response.data['results'][1]['stars'], br.stars)
+        self.assertEqual(response.data['results'][1]['review_text'], br.review_text)
+        self.assertEqual(response.data['results'][0]['user']['username'], user_two.username)  
+        self.assertEqual(response.data['results'][1]['user']['username'], self.user.username)
+        
 
     def test_book_review_detail(self):
         book = Book.objects.create(title='book', description='lorem', isbn='111')
         br = BookReview.objects.create(book=book, review_text='some text', user=self.user, stars=5)
-        response = self.client.get(reverse('api:review_detail', kwargs={'id': br.id}))
+        response = self.client.get(reverse('api:review-detail', kwargs={'id': br.id}))
 
 
         self.assertEqual(response.status_code, 200)
@@ -31,22 +50,78 @@ class BookReviewApiTestCases(APITestCase):
         # self.assertEqual(response.data['user']['password'], 'somepass')
 
 
-    def test_book_reviews(self):
-        user_two = CustomUser.objects.create(username='AkobirDev2', first_name='Akobir2')
-        
+    def test_delete_review(self):
         book = Book.objects.create(title='book1', description='lorem1', isbn='111')
-        # book_two = Book.objects.create(title='book2', description='lorem2', isbn='222')
         br = BookReview.objects.create(book=book, review_text='some text1', user=self.user, stars=5)
-        br_two = BookReview.objects.create(book=book, review_text='some text2', user=user_two, stars=3)
 
-        response = self.client.get(reverse('api:review_list'))
+        response = self.client.delete(reverse('api:review_detail', kwargs={'id': br.id}))
 
+        self.assertEqual(response.status_code, 204)
+        self.assertFalse(BookReview.objects.filter(id=br.id).exists())
+
+    
+    def test_patch_review(self):
+        book = Book.objects.create(title='book1', description='lorem1', isbn='111')
+        br = BookReview.objects.create(book=book, review_text='some text1', user=self.user, stars=5)
+
+        response = self.client.patch(
+            reverse('api:review-detail', kwargs={'id': br.id}),
+            data = {
+                'stars': 3
+            }
+            )
+
+        br.refresh_from_db()
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data['results']), 2)
-        self.assertEqual(response.data['results'][0]['stars'], br_two.stars)
-        self.assertEqual(response.data['results'][0]['review_text'], br_two.review_text)
-        self.assertEqual(response.data['results'][1]['stars'], br.stars)
-        self.assertEqual(response.data['results'][1]['review_text'], br.review_text)
-        self.assertEqual(response.data['results'][0]['user']['username'], user_two.username)  
-        self.assertEqual(response.data['results'][1]['user']['username'], self.user.username)
+        self.assertEqual(br.stars, 3)
+
+        response = self.client.patch(
+            reverse('api:review-detail', kwargs={'id': br.id}),
+            data = {
+                'review_text': 'Edited text'
+            }
+            )
+
+        br.refresh_from_db()
+
+        self.assertEqual(br.review_text, 'Edited text')
+
+    
+    def test_put_review(self):
+        book = Book.objects.create(title='book1', description='lorem1', isbn='111')
+        br = BookReview.objects.create(book=book, review_text='some text1', user=self.user, stars=5)
+
+        response = self.client.put(
+        reverse('api:review-detail', kwargs={'id': br.id}),
+        data = {
+            'stars': 4,
+            'review_text': 'Edited text',
+            'book_id': book.id,
+            'user_id': self.user.id
+        }
+        )
+
+        br.refresh_from_db()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(br.stars, 4)
+        self.assertEqual(br.review_text, 'Edited text')
+
+    
+    def test_create_review(self):
+        book = Book.objects.create(title='book1', description='lorem1', isbn='111')
         
+        response = self.client.post(
+        reverse('api:review-list'),
+        data = {
+            'stars': 4,
+            'review_text': 'New text',
+            'book_id': book.id,
+            'user_id': self.user.id
+        }
+        )
+
+        br = BookReview.objects.get(book=book)
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(br.stars, 4)
+        self.assertEqual(br.review_text, 'New text')

@@ -31,3 +31,4 @@ class BookReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookReview
         fields = ('stars', 'review_text', 'user', 'book', 'user_id', 'book_id')
+        
