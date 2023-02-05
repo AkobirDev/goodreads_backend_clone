@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
     # email = serializers.CharField(max_length=200)
     class Meta:
         model = CustomUser
-        fields = ('username', 'first_name', 'last_name', 'email')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email')
 
 class BookSerializer(serializers.ModelSerializer):
     # title = serializers.CharField(max_length=200)
@@ -17,15 +17,17 @@ class BookSerializer(serializers.ModelSerializer):
     # isbn = serializers.CharField(max_length=7)
     class Meta:
         model = Book
-        fields = ('title', 'description', 'isbn')
+        fields = ('id', 'title', 'description', 'isbn')
 
 class BookReviewSerializer(serializers.ModelSerializer):
     stars = serializers.IntegerField(min_value=1, max_value=5)
-    user = UserSerializer()
-    book = BookSerializer()
+    user = UserSerializer(read_only=True)
+    book = BookSerializer(read_only=True)
+    user_id = serializers.IntegerField(write_only=True)
+    book_id = serializers.IntegerField(write_only=True)
     # review_text = serializers.CharField()
     # user = UserSerializer()
     # book = BookSerializer()
     class Meta:
         model = BookReview
-        fields = ('stars', 'review_text', 'user', 'book')
+        fields = ('stars', 'review_text', 'user', 'book', 'user_id', 'book_id')
