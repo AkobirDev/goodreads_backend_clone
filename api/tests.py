@@ -17,8 +17,8 @@ class BookReviewApiTestCases(APITestCase):
         
         book = Book.objects.create(title='book1', description='lorem1', isbn='111')
         # book_two = Book.objects.create(title='book2', description='lorem2', isbn='222')
-        br_two = BookReview.objects.create(book=book, review_text='some text2', user=user_two, stars=3)
         br = BookReview.objects.create(book=book, review_text='some text1', user=self.user, stars=5)
+        br_two = BookReview.objects.create(book=book, review_text='some text2', user=user_two, stars=3)
 
         response = self.client.get(reverse('api:review-list'))
 
@@ -54,7 +54,7 @@ class BookReviewApiTestCases(APITestCase):
         book = Book.objects.create(title='book1', description='lorem1', isbn='111')
         br = BookReview.objects.create(book=book, review_text='some text1', user=self.user, stars=5)
 
-        response = self.client.delete(reverse('api:review_detail', kwargs={'id': br.id}))
+        response = self.client.delete(reverse('api:review-detail', kwargs={'id': br.id}))
 
         self.assertEqual(response.status_code, 204)
         self.assertFalse(BookReview.objects.filter(id=br.id).exists())

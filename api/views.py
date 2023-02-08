@@ -15,7 +15,7 @@ from books.models import BookReview
 class BookReviewViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = BookReviewSerializer
-    queryset = BookReview.objects.all().order_by('-created_at')
+    queryset = BookReview.objects.all().order_by('-id')
     lookup_field = 'id'
     
     # def get(self, request, id):

@@ -22,13 +22,13 @@ class UserCreateForm(forms.ModelForm):
         user = super().save(commit)
         user.set_password(self.cleaned_data['password'])
         user.save()
-        # if user.email:
-        #     send_mail(
-        #         'Welcome to Goodreads Clone 🎉🎉🎉',
-        #         f'Hi, {user.username}.Welcome to Goodreads Clone 🎉🎉🎉',
-        #         'akobirtursunov30@gmail.com',
-        #         [user.email], #vajoy99271@ezgiant.com
-        #     )
+        if user.email:
+            send_mail(
+                'Welcome to Goodreads Clone 🎉🎉🎉',
+                f'Hi, {user.username}.Welcome to Goodreads Clone 🎉🎉🎉',
+                'akobirtursunov30@gmail.com',
+                [user.email], #vajoy99271@ezgiant.com
+            )
         return user
 
 class ProfileEditForm(forms.ModelForm):
