@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.views.generic import View, ListView, DetailView
 
 from books.forms import ReviewForm
-from .models import Book, BookReview
+from .models import Author, Book, BookAuthor, BookReview
 
 # Create your views here.
 
@@ -45,6 +45,20 @@ class BookDetailView(View):
         review_form = ReviewForm()
         context = {'book': book, 'review_form': review_form}
         return render(request, 'books/book_detail.html', context)
+
+
+class AuthorView(View):
+    def get(self, request, author_id):
+        author = Author.objects.get(id=author_id)
+        own_books_qs = BookAuthor.objects.filter(author=author)
+        own_books = [qs.book for qs in own_books_qs]
+        context = {
+            'author': author,
+            'own_books': own_books
+        }
+        return render(request, 'books/author_about.html', context=context)
+
+
 
 class AddReviewView(LoginRequiredMixin,View):
     def post(self, request, id):

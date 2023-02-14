@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}About Author{% endblock title %}
+{% block content %}
+<div class="row mb-5">
+    <div class="col-2">
+        <img src='{{author.author_photo.url}}' width="150" height="200">
+    </div>
+    <div class="col-7 ms-5">
+        <h3>{{author.fullName}}</h3> 
+        <p>{{author.bio}}</p>
+        <h4 class='mb-4'>{{author.fullName}}'s books</h4>
+        {% for book in own_books %}
+            <div class='d-flex gap-2 mb-2'>
+                <img src='{{book.cover_img.url}}' width='70' height='90'>
+                <h6>{{book.title}}</h6>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

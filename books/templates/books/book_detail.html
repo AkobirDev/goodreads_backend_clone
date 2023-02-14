@@ -10,14 +10,16 @@
         </div>
         <div class="col-7 ms-5">
             <h3>{{book.title}}</h3>
+            {% if book.bookauthor_set.all %}
             <p>Authored by 
                 {% for book_author in book.bookauthor_set.all %}
                 {% if forloop.last %}
-                    <span class='fst-italic fs-5'>{{book_author.author.fullName}}</span>
+                    <a href="{% url 'books:author_detail' book_author.author.id %}" class='fst-italic fs-5'>{{book_author.author.fullName}}</a>
                 {% else %}
-                <span class='fst-italic fs-5'>{{book_author.author.fullName}}, </span>
+                <a href="{% url 'books:author_detail' book_author.author.id %}" class='fst-italic fs-5'>{{book_author.author.fullName}}, </a>
                 {% endif %}
                 {% endfor %}
+                {% endif %}
             <p>{{book.description}}</p>
         </div>
     </div>

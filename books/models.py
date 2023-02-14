@@ -20,6 +20,7 @@ class Author(models.Model):
     last_name = models.CharField(max_length=200)
     email = models.EmailField()
     bio = models.TextField(blank=True, null=True)
+    author_photo = models.ImageField(default='default-user-pic.jpg')
 
     def fullName(self):
         return f"{self.first_name} {self.last_name}"
