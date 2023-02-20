@@ -8,6 +8,7 @@ djangorestframework = "*"
 celery = "*"
 pillow = "*"
 django-environ = "*"
+gunicorn = "*"
 
 [dev-packages]
 
