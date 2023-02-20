@@ -22,7 +22,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
@@ -34,12 +34,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    #global
+    'rest_framework',
     "crispy_forms",
     "crispy_bootstrap5",
+
+    #local
     'books.apps.BooksConfig',
     'users.apps.UsersConfig',
-    'api',
-    'rest_framework',
+    'api.apps.ApiConfig',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -127,12 +131,14 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+import os
 STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = 'media-files'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static' 
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media-files')
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static' 
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
